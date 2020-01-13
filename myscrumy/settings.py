@@ -78,7 +78,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         # the above is for onnecting to sqlite...
-        'ENGINE': 'django.db.backends.mysql',
+        # 'ENGINE': 'django.db.backends.mysql',
         # 'NAME': 'myscrumy',
         # 'USER': 'root',
         # 'PASSWORD': '',
