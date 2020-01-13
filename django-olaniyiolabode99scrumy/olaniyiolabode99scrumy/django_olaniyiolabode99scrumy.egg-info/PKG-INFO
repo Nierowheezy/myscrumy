@@ -1,0 +1,23 @@
+Metadata-Version: 1.1
+Name: django-olaniyiolabode99scrumy
+Version: 0.1
+Summary: A simple Django app by linuxjobber intern
+Home-page: https://www.example.com
+Author: Olabode Olaniyi David
+Author-email: Olaniyiolabode99@gmail.com
+License: BSD License
+Description: The application is called olaniyiolabode99scrumy 
+        You can access the route when you serve up the server
+        It has just one view that goes to /olaniyiolabode99scrumy
+Platform: UNKNOWN
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 3.0.2
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.6.0
+Classifier: Programming Language :: Python :: 3.5.0
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content

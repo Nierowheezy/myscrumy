@@ -1,0 +1,4 @@
+include LICENSE
+include READEME.txt
+recursive-include olaniyiolabode99scrumy/static *
+recursive-include olaniyiolabode99scrumy/templates *
