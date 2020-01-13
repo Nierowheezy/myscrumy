@@ -1,0 +1,15 @@
+MANIFEST.in
+README.rst
+setup.py
+django_olaniyiolabode99scrumy.egg-info/PKG-INFO
+django_olaniyiolabode99scrumy.egg-info/SOURCES.txt
+django_olaniyiolabode99scrumy.egg-info/dependency_links.txt
+django_olaniyiolabode99scrumy.egg-info/top_level.txt
+olaniyiolabode99scrumy/__init__.py
+olaniyiolabode99scrumy/admin.py
+olaniyiolabode99scrumy/apps.py
+olaniyiolabode99scrumy/models.py
+olaniyiolabode99scrumy/tests.py
+olaniyiolabode99scrumy/urls.py
+olaniyiolabode99scrumy/views.py
+olaniyiolabode99scrumy/migrations/__init__.py

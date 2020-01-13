@@ -1,8 +1,0 @@
-MANIFEST.in
-README.rst
-setup.py
-django_olaniyiolabode99scrumy.egg-info/PKG-INFO
-django_olaniyiolabode99scrumy.egg-info/SOURCES.txt
-django_olaniyiolabode99scrumy.egg-info/dependency_links.txt
-django_olaniyiolabode99scrumy.egg-info/top_level.txt
-migrations/__init__.py
