@@ -8,24 +8,23 @@ from django.contrib.auth.models import User
 #     User = get_user_model()
 
 
+class GoalStatus(models.Model):
+    status_name = models.TextField()
+
+
 class ScrumyGoals(models.Model):
-    goal_id = models.primary_key = True
-    goal_status = models.ForeignKey('GoalStatus', on_delete=models.PROTECT)
-    created_by = models.DateField()
-    moved_by = models.DateTimeField()
+    goal_name = models.TextField()
+    goal_id = models.IntegerField()
+    created_by = models.TextField()
+    moved_by = models.TextField()
     owner = models.TextField()
-    goal_name = models.CharField(max_length=200)
+    goal_status = models.ForeignKey('GoalStatus', on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
 
 
 class ScrumyHistory(models.Model):
-    moved_by = models.DateTimeField()
-    created_by = models.DateField()
-    moved_from = models.DateTimeField()
-    moved_to = models.DateTimeField()
+    moved_by = models.TextField()
+    created_by = models.TextField()
+    moved_from = models.TextField()
+    moved_to = models.TextField()
     time_of_action = models.TimeField()
-
-
-class GoalStatus(models.Model):
-    # goal_status = models.ForeignKey(ScrumyGoals, on_delete=models.CASCADE)
-    status_name = models.TextField()
