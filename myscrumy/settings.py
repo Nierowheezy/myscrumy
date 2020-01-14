@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['18.191.238.236', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'olaniyiolabode99scrumy.apps.Olaniyiolabode99ScrumyConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
