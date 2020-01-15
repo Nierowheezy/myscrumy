@@ -25,6 +25,9 @@ class ScrumyGoals(models.Model):
     moved_by = models.CharField(max_length=100)
     owner = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.goal_name
+
 
 class ScrumyHistory(models.Model):
     goal = models.ForeignKey(
@@ -34,3 +37,6 @@ class ScrumyHistory(models.Model):
     moved_from = models.CharField(max_length=100)
     moved_to = models.CharField(max_length=100)
     time_of_action = models.DateField()
+
+    def __str__(self):
+        return self.created_by
