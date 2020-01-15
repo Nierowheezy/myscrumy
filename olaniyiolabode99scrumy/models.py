@@ -11,6 +11,9 @@ from django.contrib.auth.models import User
 class GoalStatus(models.Model):
     status_name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.status_name
+
 
 class ScrumyGoals(models.Model):
     user = models.ForeignKey(User, related_name='goals',
@@ -24,7 +27,8 @@ class ScrumyGoals(models.Model):
 
 
 class ScrumyHistory(models.Model):
-    goal = models.ForeignKey(ScrumyGoals, on_delete=models.PROTECT, default=0.0)
+    goal = models.ForeignKey(
+        ScrumyGoals, on_delete=models.PROTECT, default=0.0)
     moved_by = models.CharField(max_length=100)
     created_by = models.CharField(max_length=100)
     moved_from = models.CharField(max_length=100)
