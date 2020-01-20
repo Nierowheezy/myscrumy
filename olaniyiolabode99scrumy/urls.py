@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.urls import path
 from . import views
+from olaniyiolabode99scrumy.views import ScrumyGoalList
 
 
 urlpatterns = [
     path('', views.index, name='index'),
+
 
 ]
