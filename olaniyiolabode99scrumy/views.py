@@ -2,16 +2,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from django.views.generic import ListView
 
-from olaniyiolabode99scrumy.models import ScrumyGoals
+from olaniyiolabode99scrumy.models import GoalStatus, ScrumyGoals, ScrumyHistory
 
 # Create your views here.
+goal = ScrumyGoals.objects.filter(goal_name="Learn Django")
 
+def get_grading_parameters(request):
+    return HttpResponse(goal)
 
-def index(request):
-    return HttpResponse("This is a Scrum Application")
-
-
-class ScrumyGoalList(ListView):
-    model = ScrumyGoals
