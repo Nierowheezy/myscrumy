@@ -18,7 +18,9 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.get_grading_parameters),
-
-
+    path('', views.get_grading_parameters, name="index"),
+    path('movegoal/<int:goal_id>/', views.move_goal, name="movegoal"),
+    path('addgoal/', views.add_goal, name="addgoal"),
+    path('home/', views.home, name="home"),
+    path('goalname/', views.goal_name, name="goalname")
 ]
