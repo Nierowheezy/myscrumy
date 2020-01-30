@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login page</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        .container {
+            width: 960px;
+            height: 500px;
+            margin: 50px auto;
+            text-align: center;
+            background-color: #e3e3e3;
+        }
+
+        p {
+            padding: 50px;
+        }
+
+        input[type=submit] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: green;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+
+</head>
+
+
+
+<body>
+
+    <div class="container">
+        <p>Login to your account or <a href={% url 'olaniyiolabode99scrumy:signup' %}>Create an account</a></p>
+        <form method="POST"> {% csrf_token %}
+            <input name="username">
+            <input name="password">
+            <input type="submit">
+            {% if form.errors %}<p>invalid login credentials</p>{% endif %}
+        </form>
+
+    </div>
+</body>
+
+</html>

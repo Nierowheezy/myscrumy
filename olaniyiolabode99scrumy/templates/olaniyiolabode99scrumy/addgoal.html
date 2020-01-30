@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add Goal Page</title>
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+    }
+
+    .container {
+        width: 1080px;
+        height: 500px;
+        margin: 50px auto;
+        text-align: center;
+        background-color: #e3e3e3;
+    }
+
+    body {
+        background-color: #ccc;
+    }
+
+    form {
+        padding-top: 2rem;
+    }
+
+    input[type=submit] {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: green;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    input {
+        padding: 10px;
+        border-radius: 5px;
+    }
+</style>
+
+<body>
+
+</body>
+<div class="container">
+    <form method='POST'>
+        {% csrf_token %}
+        {{create_goal}}
+        <input type="submit">
+    </form>
+</div>
+
+</html>
