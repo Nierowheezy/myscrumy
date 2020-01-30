@@ -23,16 +23,35 @@
         }
 
         body {
-            background-color: #ccc;
+            background-color: rgb(194, 157, 157);
+        }
+
+        p {
+            margin-top: 20px;
+            padding-top: 100px;
+            font-size: 30px;
+            margin-bottom: 50px;
+
+        }
+
+        .btn-down {
+            text-decoration: none;
+            background-color: turquoise;
+            padding: 10px;
+            border-radius: 10px;
+            color: #fff;
+
         }
     </style>
 
 </head>
 
 <body>
+    <div class="container">
+        <p>Your Account was created successfully!!!, <br> Thank you</p>
+        <a class="btn-down" href={% url 'olaniyiolabode99scrumy:login'%}>Login to your account</a>
+    </div>
 
-    <p>Your Account was created successfully!!!, Thank you</p>
-    <a href={% url 'olaniyiolabode99scrumy:login'%}>Login to your account</a>
 
 </body>
 
