@@ -12,6 +12,10 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 # Create your views here.
 
+def index(request):
+    return HttpResponse("This is a Scrum Application")
+
+
 
 @login_required(login_url="/olaniyiolabode99scrumy/accounts/login")
 def home(request):
