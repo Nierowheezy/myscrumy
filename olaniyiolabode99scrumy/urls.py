@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .views import *
 app_name = 'olaniyiolabode99scrumy'
 urlpatterns = [
-    path('', index, name="index"),
+    path('', sign_up, name='signup'),
     path('accounts/', include(urls)),
     path('accounts/signup/', sign_up, name='signup'),
     path('addgoal/', add_goal, name='add'),
