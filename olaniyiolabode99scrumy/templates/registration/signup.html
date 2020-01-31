@@ -19,14 +19,20 @@
             height: 500px;
             margin: 50px auto;
             text-align: center;
-            background-color: #e3e3e3;
+            background-color: rgb(143, 169, 231);
+            border-radius: 20px;
+            padding: 120px;
+
+        }
+
+        body {
+            background-color: rgb(146, 166, 211);
         }
 
         div {
-            width: 45%;
+            width: 50%;
             height: 50%;
-            border: 2px dotted;
-            background-color: cadetblue;
+            border: 1px solid rgb(174, 194, 240);
             padding: 100px;
             margin: 40px auto;
             font-size: 30px;
@@ -36,7 +42,7 @@
             padding: 10px;
             border: none;
             border-radius: 5px;
-            background-color: green;
+            background-color: #827ffe;
             color: #fff;
             cursor: pointer;
         }
@@ -53,13 +59,21 @@
     <div class="container">
         <section>
             <h2>Create your account</h2>
-            <form method="POST"> {% csrf_token %}
+            <form method="POST">
+                {% csrf_token %}
+                <br>
                 {{form}}
+
                 <input type="submit">
             </form>
         </section>
     </div>
 
+
+    <script>
+        passw = document.getElementById("id_password");
+        passw.type = "password";
+    </script>
 </body>
 
 </html>

@@ -20,11 +20,11 @@
             height: 500px;
             margin: 50px auto;
             text-align: center;
-            background-color: #e3e3e3;
+            background-color: rgb(174, 194, 240);
         }
 
         body {
-            background-color: rgb(194, 157, 157);
+            background-color: rgb(146, 166, 211);
         }
 
         p {
@@ -35,9 +35,13 @@
             padding: 10px;
             border: none;
             border-radius: 5px;
-            background-color: green;
             color: #fff;
             cursor: pointer;
+            background-color: #827ffe;
+            margin: 10px;
+            width: 80px;
+            text-transform: uppercase;
+            
         }
 
         input {
@@ -55,9 +59,11 @@
     <div class="container">
         <p>Login to your account or <a href={% url 'olaniyiolabode99scrumy:signup' %}>Create an account</a></p>
         <form method="POST"> {% csrf_token %}
-            <input name="username">
-            <input name="password">
-            <input type="submit">
+            <label id="user">Username:</label> 
+            <input name="username" type="text" placeholder="please enter your usernmae">
+            <label id="user">Password:</label> 
+            <input name="password" type="password" placeholder="please enter your password">
+            <input type="submit" value="Login">
             {% if form.errors %}<p>invalid login credentials</p>{% endif %}
         </form>
 
