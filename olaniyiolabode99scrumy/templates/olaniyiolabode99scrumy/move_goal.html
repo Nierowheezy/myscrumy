@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Move Goal</title>
+    <style>
+        container {
+            width: 1080px;
+            height: 500px;
+            margin: 50px auto;
+            text-align: center;
+            background-color: rgb(174, 194, 240);
+        }
+
+        body {
+            background-color: rgb(146, 166, 211);
+            font-family: sans-serif;
+        }
+
+
+
+        div#formm {
+            width: 40%;
+            height: 200px;
+            border: 1px solid green;
+            border-radius: 5px;
+            background-color: rgb(174, 194, 240);
+            padding: 60px;
+            margin: 40px auto;
+            font-size: large;
+        }
+
+        .one {
+            background-color: turquoise;
+            color: aliceblue;
+            width: 120px;
+            height: 50px;
+            margin-left: 10%;
+            /* margin-top: 20px; */
+            border-radius: 5px;
+            border: none;
+            font-size: large;
+            margin: 0 auto;
+        }
+
+        select {
+            width: 80%;
+            height: 30px;
+        }
+
+        div#head {
+            width: 100%;
+            height: auto;
+            color: antiquewhite;
+            box-shadow: 0 10px 6px -6px rgb(59, 59, 59);
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .messages {
+            color: rgb(255, 58, 58);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id='head'>
+        <h1>
+            Move Goal
+        </h1>
+    </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tages %} class="{{message.tags}}" {%endif%}>{{message}} <a href="{% url 'home' %}">Go Home</a>
+        </li>
+        {%endfor%}
+    </ul>
+    {%endif%}
+
+    <div id="formm">
+        <form action="" method="POST">
+            {%csrf_token%}
+            {{ move_form.as_p }}
+            <input class="one" type="submit" name="submit" value="Move Goal">
+            <!-- {% if current_user in users_in_dev %} -->
+
+            <!-- Move to <br><br>
+        <input type="radio" name="goal" value="Weekly Goals">Weekly Goals <br>
+        <input type="radio" name="goal" value="Daily Goals">Daily Goals <br>
+        <input type="radio" name="goal" value="Verify Goals">Verify Goals <br>
+        <br>
+        <input type="submit" name="submit" value="Move Goal"> -->
+
+            <!-- {% elif current_user in users_in_QA %} -->
+            <!-- Move to<br><br>
+        <input type="radio" name="goal" value="Weekly Goals">Weekly Goals <br>
+        <input type="radio" name="goal" value="Daily Goals">Daily Goals <br>
+        <input type="radio" name="goal" value="Verify Goals"> Verify Goals <br>
+        <input type="radio" name="goal" value="Done Goals"> Done Goals <br>
+        <input type="submit" name="submit" value="Move Goal"> -->
+
+            <!-- {% elif current_user in users_in_adm %} -->
+            <!-- Move to<br><br>
+        <input type="radio" name="goal" value="Weekly Goals">Weekly Goals <br>
+        <input type="radio" name="goal" value="Daily Goals">Daily Goals <br>
+        <input type="radio" name="goal" value="Verify Goals"> Verify Goals <br>
+        <input type="radio" name="goal" value="Done Goals"> Done Goals <br>
+        <br>
+        <input type="submit" name="submit" value="Move Goal"> -->
+
+            <!-- {% elif current_user in users_in_own %} -->
+            <!-- Move to<br> <br>
+        <input type="radio" name="goal" value="Weekly Goals">Weekly Goals <br>
+        <input type="radio" name="goal" value="Daily Goals">Daily Goals <br>
+        <input type="radio" name="goal" value="Verify Goals"> Verify Goals <br>
+        <input type="radio" name="goal" value="Done Goals"> Done Goals <br>
+        <input type="submit" name="submit" value="Move Goal"> -->
+            <!-- {%endif%} -->
+        </form>
+    </div>
+</body>
+
+</html>

@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login page</title>
-
+    <title>Login</title>
     <style>
         * {
             margin: 0;
@@ -31,6 +30,11 @@
             padding: 50px;
         }
 
+        p.login {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
         input[type=submit] {
             padding: 10px;
             border: none;
@@ -41,7 +45,7 @@
             margin: 10px;
             width: 80px;
             text-transform: uppercase;
-            
+
         }
 
         input {
@@ -49,25 +53,26 @@
             border-radius: 5px;
         }
     </style>
-
 </head>
-
-
 
 <body>
 
-    <div class="container">
-        <p>Login to your account or <a href={% url 'olaniyiolabode99scrumy:signup' %}>Create an account</a></p>
-        <form method="POST"> {% csrf_token %}
-            <label id="user">Username:</label> 
-            <input name="username" type="text" placeholder="please enter your usernmae">
-            <label id="user">Password:</label> 
-            <input name="password" type="password" placeholder="please enter your password">
-            <input type="submit" value="Login">
-            {% if form.errors %}<p>invalid login credentials</p>{% endif %}
+    <div class="forrm container">
+        <p class="login">Login</p> <br>
+        <form method="POST">
+            {% csrf_token %}
+            <label id="user">Username:</label> <br><br>
+            <input class="one" type="text" name="username"><br><br>
+            <label id="pass">Password:</label> <br><br>
+            <input class="one" type="password" name="password"><br>
+            <input class="two" type="submit" name="submit" value="Submit">
+            <h2 class="index"><a href="{% url 'index' %}">Register Here </a></p>
         </form>
-
     </div>
+
+    {% if form.errors %}
+    <p>Invalid login credentials</p>
+    {% endif %}
 </body>
 
 </html>

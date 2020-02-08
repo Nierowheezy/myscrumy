@@ -1,50 +1,32 @@
-from django.contrib.auth.models import User
 from django.db import models
-from django.forms import ModelForm
-
-
+from django.contrib.auth.models import User
 # Create your models here.
-
 class GoalStatus(models.Model):
-    status_name = models.TextField(default=None)
-
+    status_name = models.CharField(max_length=30)
     def __str__(self):
         return self.status_name
-
-
 class ScrumyGoals(models.Model):
-    goal_name = models.TextField(default=None)
-    goal_id = models.IntegerField(default=None)
-    created_by = models.TextField(default=None)
-    moved_by = models.TextField(default=None)
-    owner = models.TextField(default=None)
+    goal_name = models.CharField(max_length=255)
+    goal_id = models.IntegerField(default=30)
+    created_by = models.CharField(max_length=30)
+    moved_by = models.CharField(max_length=30)
+    owner = models.CharField(max_length=30)
+    goal_status = models.ForeignKey(
+        GoalStatus,
+        on_delete = models.PROTECT, null= True)
     user = models.ForeignKey(
-        User, related_name='user_name', on_delete=models.PROTECT)
-    goal_status = models.ForeignKey(GoalStatus, on_delete=models.PROTECT)
-
+        User, 
+        related_name='user',
+        on_delete= models.PROTECT)
     def __str__(self):
         return self.goal_name
 
-
 class ScrumyHistory(models.Model):
-    moved_by = models.TextField(default=None)
-    created_by = models.TextField(default=None)
-    moved_from = models.TextField(default=None)
-    moved_to = models.TextField(default=None)
-    time_of_action = models.TextField(default=None)
-    goal = models.ForeignKey(ScrumyGoals, on_delete=models.PROTECT)
-
+    moved_by = models.CharField(max_length=30)
+    created_by = models.CharField(max_length=30)
+    moved_from = models.CharField(max_length=30)
+    moved_to = models.CharField(max_length=30)
+    time_of_action = models.DateTimeField(auto_now= False, auto_now_add= False)
+    goal = models.ForeignKey(ScrumyGoals, on_delete= models.CASCADE)
     def __str__(self):
         return self.created_by
-
-
-class SignUpForm(ModelForm):
-    class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email', 'username', 'password']
-
-
-class CreateGoalForm(ModelForm):
-    class Meta:
-        model = ScrumyGoals
-        fields = ['goal_name', 'user']

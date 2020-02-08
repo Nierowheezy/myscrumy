@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Success Page</title>
+    <title>Account Created</title>
     <style>
         * {
             margin: 0;
@@ -45,15 +45,13 @@
 
         }
     </style>
-
 </head>
 
 <body>
     <div class="container">
-        <p>Your Account was created successfully!!!, <br> Thank you</p>
-        <a class="btn-down" href={% url 'olaniyiolabode99scrumy:login'%}>Login to your account</a>
+        <h2>Your account has been successfully created</h2>
+        <div><a href="{% url 'login' %}">Click here to login</a></div>
     </div>
-
 
 </body>
 

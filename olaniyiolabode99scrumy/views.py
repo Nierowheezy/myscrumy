@@ -1,92 +1,234 @@
-import random
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
+from django.http import HttpResponse 
+from django.contrib import messages
+from .models import User, ScrumyGoals, ScrumyHistory, GoalStatus
+from django.core.exceptions import ObjectDoesNotExist
+from .forms import SignupForm, CreateGoalForm, MoveGoalForm
 from django.contrib.auth.models import Group
-from django.contrib.auth.forms import authenticate
-from django.views.generic import TemplateView
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-
-# from django.utila.decorators import method_decorator
-
-
-from .models import *
+import random
 # Create your views here.
-
-
-
-
-@login_required(login_url="/olaniyiolabode99scrumy/accounts/login")
-def home(request):
-    users = User.objects.all()
-
-    def get_by_status(status_name):
-        goals = GoalStatus.objects.get(status_name=status_name)
-        status_goals = goals.scrumygoals_set.all()
-        return status_goals
-
-    daily_goals = get_by_status("Daily Goal")
-    weekly_goals = get_by_status("Weekly Goal")
-    verify_goals = get_by_status("Verify Goal")
-    done_goals = get_by_status("Done Goal")
-
-    dictionary = {
-        'users': users,
-        'weekly_goals': weekly_goals,
-        'daily_goals': daily_goals,
-        'verify_goals': verify_goals,
-        'done_goals': done_goals,
-    }
-    return render(request, 'olaniyiolabode99scrumy/home.html', dictionary)
-
-
-def sign_up(request):
-    form = SignUpForm()
-    if request.method == 'POST':
-        data = request.POST.dict()
-        user = User.objects.create_user(
-            data['username'], data['email'], data['password'])
-        user.save()
-        new_user = User.objects.get(username=data['username'])
-        developer = Group.objects.get(name='Developer')
-        developer.user_set.add(new_user)
-        response = redirect('/olaniyiolabode99scrumy/successpage/')
-        return response
+def index(request):
+    goals = ScrumyGoals.objects.filter(goal_name='Learn Django')
+    # for goal in goals:
+    #     print(goal)
+    #     return HttpResponse( goal )
+    form = SignupForm()
+    if request.method =="POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            form.save(commit=False)
+            cd = form.cleaned_data
+            userr = User.objects.create_user(username=cd['username'], password=form.cleaned_data['password'], email=cd['email'])
+            userr.is_staff = True
+            userr.is_superuser = True 
+            my_group = Group.objects.get(name='Developer')
+            my_group.user_set.add(userr)
+            return redirect('success')
     else:
-        form
-    return render(request, 'registration/signup.html', {'form': form})
+        form= SignupForm()
+    return render(request, 'olaniyiolabode99scrumy/index.html', {'form':form})
 
-
-def move_view(request, goal_id):
-    dictionary = {"error": "A record with that goal id does not exist"}
+def account_created(request):
+    return render(request, 'olaniyiolabode99scrumy/success.html')
+def logout_view(request):
+    logout(request)
+    redirect('login')
+# @login_required(login_url='accounts/login/')
+def move_goal(request, goal_id):
+    context = {'goal_id':goal_id}
+    move_form = MoveGoalForm()
+    current_user = request.user
+    group= None
+    if current_user.username == 'louis':
+        group
+    else:
+        group = current_user.groups.all()[0]
     try:
-        obj = ScrumyGoals.objects.get(goal_id=goal_id)
-    except ScrumyGoals.DoesNotExist:
-        return render(request, 'olaniyiolabode99scrumy/exception.html',  dictionary)
-    else:
-        return HttpResponse(obj.goal_name)
+        
+        current_user = request.user
+
+        users_in_dev = Group.objects.get(name="Developer").user_set.all()
+        users_in_QA = Group.objects.get(name="Quality Assurance").user_set.all()
+        users_in_adm = Group.objects.get(name="Admin").user_set.all()
+        users_in_own = Group.objects.get(name="Owner").user_set.all()
+        instance = ScrumyGoals.objects.get(goal_id=goal_id)
+        
+        if request.method == 'POST':
+            move_form = MoveGoalForm(request.POST, instance=instance)
+            if move_form.is_valid():
+                mover = move_form.save(commit=False)
+                cd = move_form.cleaned_data
+                goal_status = cd['goal_status'].status_name
+                # print(current_user)
+                user = mover.user
+                # return render(request, 'afordeal88scrumy/error_move.html', 
+                #     {   'current_user':current_user,
+                #         'users_in_dev':users_in_dev,
+                #         'users_in_QA':users_in_QA,
+                #         'users_in_adm':users_in_adm,
+                #         'users_in_own':users_in_own,
+                #         'move_form':move_form,
+                #         'goal_status':goal_status,
+                #         'mover':mover,
+
+                        # })
+                if current_user in users_in_dev and goal_status == 'Done Goal':
+                    messages.error(request, ' Access restricted, as a DEv, You cannot move to Done goals')
+                    return HttpResponseRedirect(request.path)
+                    # return HttpResponse('<span style="background-color:red;color:white;padding:10px;">\
+                    # Access restricted, as a DEv, You cannot move to Done goals</span>') 
+                          
+                elif current_user in users_in_dev and current_user!= user:
+                    messages.error(request, " Access restricted, as a DEv, You cannot move other users' goal")
+                    # return HttpResponse('<span style="background-color:red;color:white;padding:10px;">\
+                    # Access restricted, as a Dev, You cannot move other users goals</span>')        
+                    return HttpResponseRedirect(request.path)    
+                elif current_user in users_in_QA and goal_status=='Weekly Goal':
+                    messages.error(request, " Access restricted,as a QA, You cannot move back to Weekly goals")
+                    return HttpResponseRedirect(request.path)
+                    # return HttpResponse('<span style="background-color:red;color:white;padding:10px;">\
+                    # Access restricted,as a QA, You cannot move back to Weekly goals</span>')
+
+                elif current_user in users_in_QA and current_user != user and mover.goal_status.status_name!='Verify Goal' and goal_status!= 'Done Goal':
+                    messages.error(request, " Access restricted,as a QA, You cannot move back to Weekly goals")
+                    return HttpResponseRedirect(request.path)
+                    # return HttpResponse('<span style="background-color:red;color:white;padding:10px;">\
+                    #     Access restricted,as a QA, You can only move other people goal from \
+                    # verify goal to done goal </span>')
+
+                elif current_user in users_in_own and current_user != user:
+                    messages.error(request, " Access restricted,as a QA, You cannot move back to Weekly goals")
+                    return HttpResponseRedirect(request.path)
+                    # return HttpResponse('<span style="background-color:red;color:white;padding:10px;">\
+                    #     Access restricted,as an owner, You can only move your goals</span>')
+                else:
+                    post = mover.save()
+                    return redirect('home')
+
+            else:
+                move_form = MoveGoalForm(instance=instance)                        
 
 
+    except ObjectDoesNotExist:
+        return render(request, 'olaniyiolabode99scrumy/exception.html', context)
+        
+    return render(request, 'olaniyiolabode99scrumy/move_goal.html', {
+        'current_user':current_user,
+        'users_in_dev':users_in_dev,
+        'users_in_QA':users_in_QA,
+        'users_in_adm':users_in_adm,
+        'users_in_own':users_in_own,
+        'move_form':move_form,
+
+    }) 
+    
+    
+@login_required(login_url='accounts/login/')
 def add_goal(request):
-    form = CreateGoalForm
+    current_user = request.user
+    group=None
+    if current_user.username == 'louis':
+        group
+    else:
+        group = current_user.groups.all()[0]
     if request.method == 'POST':
-        random_list = list(random.sample(range(1000, 9999), 10))
-        random.shuffle(random_list)
-        random_no = random_list[0]
-        status = GoalStatus.objects.get(status_name="Daily Goal")
+        goal_form = CreateGoalForm(request.POST)
+        if goal_form.is_valid():
+            cd = goal_form.cleaned_data
+            add_gol = goal_form.save(commit=False)
+            add_gol.goal_id = gen_id() #random.randint(1000, 9999)
+            add_gol.created_by = cd['user']
+            add_gol.moved_by = cd['user']
+            add_gol.owner = cd['user']
+            goal_status = cd['goal_status'].status_name
+            users_in_dev = Group.objects.get(name="Developer").user_set.all()
+            users_in_QA = Group.objects.get(name="Quality Assurance").user_set.all()
+            users_in_adm = Group.objects.get(name="Admin").user_set.all()
+            users_in_own = Group.objects.get(name="Owner").user_set.all()
+            # print(current_user)
+            # print(cd['user'])
+            if current_user in users_in_dev and current_user != cd['user']:
+                # return HttpResponse('<span style="background-color:red;color:white;padding:10px;">Access restricted, as a Dev,\
+                #         You can only create weekly goal for yourself</span>')
+                messages.error(request, "Access restricted, as a Dev, You can only create weekly goal for yourself ")
+                return HttpResponseRedirect(request.path)
+            if current_user in users_in_dev and goal_status != 'Weekly Goal' :
+                # return HttpResponse('<span style="background-color:red;color:white;padding:10px;">Access restricted, as a Dev,\
+                #         You can only create tasks under Weekly goals</span>')
+                messages.error(request, "Access restricted, as a Dev, You can only create weekly goal for yourself ")
+                return HttpResponseRedirect(request.path)
+            if current_user in users_in_QA and current_user != cd['user']:
+                # return HttpResponse('<span style="background-color:red;color:white;padding:10px;">Access restricted, as a QA,\
+                #         You can only create weekly goal for yourself</span>') 
+                messages.error(request, "Access restricted, as a QA, You can only create weekly goal for yourself ")
+                return HttpResponseRedirect(request.path)
+            if current_user in users_in_adm and current_user != cd['user']:
+                    #  return HttpResponse('<span style="background-color:red;color:white;padding:10px;">Access restricted,
+                    #  You can only create weekly goal for yourself</span>')  
+                messages.error(request, "Access restricted, as a Admin, You can only create weekly goal for yourself ")
+                return HttpResponseRedirect(request.path)          
+            if current_user in users_in_own and current_user != cd['user']:
+                # return HttpResponse('<span style="background-color:red;color:white;padding:10px;">Access restricted, as an owner
+                #         You can only create weekly goal for yourself</span>') 
+                messages.error(request, "Access restricted, as an Owner, You can only create weekly goal for yourself ") 
+                return HttpResponseRedirect(request.path)           
+            else:
+                    # ScrumyGoal.objects.create(
+                    # goal_name=cd['goal_name'], goal_id=gen_id(), created_by=cd['user'], 
+                    # moved_by= cd['user'], owner=cd['user'], goal_status=GoalStatus(1), user=User.objects.get(username=cd['user']) )
+                add_gol.save()
+                return redirect('home')
+                # return HttpResponse('<span style="background-color:red;color:white;padding:10px;">Added successfully</span>')   
+    else:
+        goal_form = CreateGoalForm()
+    return render(request,'olaniyiolabode99scrumy/add_goal.html', {'goal_form':goal_form} )
 
-        form = form(request.POST)
-        data = request.POST.dict()
-        user = User.objects.get(id=data['user'])
-        add_goal = form.save(commit=False)
-        add_goal.goal_id = random_no
-        add_goal.goal_status = status
-        add_goal.moved_by = user.username
-        add_goal.created_by = user.username
-        add_goal.owner = user.username
-        add_goal.save()
-        return HttpResponseRedirect('/olaniyiolabode99scrumy/home')
+    # user = User.objects.get(username='louis')
+    # goal_status = GoalStatus.objects.get(status_name="Weekly Goal")
+    # ScrumyGoals.objects.create(goal_name="Keep Learning Django", goal_id = gen_id(), created_by="Louis", 
+    # moved_by = "Louis", owner="Louis", goal_status=goal_status, user=user )
+    # return HttpResponse('Goal has been successgully added')
+
+@login_required(login_url='accounts/login/')
+def home(request):
+    goals = ScrumyGoals.objects.filter(goal_name='Keep Learning Django')
+    users = User.objects.all()
+    weekly = GoalStatus.objects.get(status_name="Weekly Goal")
+    weekly = weekly.scrumygoals_set.all()
+    daily = GoalStatus.objects.get(status_name="Daily Goal")
+    daily = daily.scrumygoals_set.all()
+    verify = GoalStatus.objects.get(status_name="Verify Goal")
+    verify = verify.scrumygoals_set.all()
+    done = GoalStatus.objects.get(status_name="Done Goal")
+    done = done.scrumygoals_set.all()
+    current_user = request.user
+    group = None
+    # print(current_user=='louis')
+    # print(current_user.username)
+    if current_user.username == 'louis':
+        group = group
+    else:
+        group = current_user.groups.all()[0]
     context = {
-        'create_goal': form
+        'goals':goals,
+        'users':users,
+        'weekly':weekly,
+        'daily':daily,
+        'verify':verify,
+        'done':done,
+        'current_user':current_user,
+        'group':group,
     }
+    output = ', '.join([goal.goal_name for goal in goals])
+    # print(request.user)
+    return render(request, "olaniyiolabode99scrumy/home.html", context)
 
-    return render(request, 'olaniyiolabode99scrumy/addgoal.html', context)
+def gen_id():
+        id_list = ScrumyGoals.objects.all()
+        id_list = [idd.goal_id for idd in id_list]
+        g_id = random.randint(1000, 9999)
+        if g_id in id_list:
+                g_id= random.randint(1000, 9999)
+        return g_id

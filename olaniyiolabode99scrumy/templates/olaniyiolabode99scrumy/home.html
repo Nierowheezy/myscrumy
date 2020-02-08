@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home Page</title>
+    <title>My Chatscrum</title>
     <style>
         * {
             margin: 0;
@@ -23,7 +23,8 @@
         }
 
         body {
-            background-color: rgb(194, 157, 157);
+            background-color: rgb(188, 216, 243);
+            text-align: center;
         }
 
 
@@ -61,14 +62,32 @@
             border-radius: 10px;
             color: #fff;
         }
+
+        ul,
+        li {
+            list-style-type: none;
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <div class="table-container">
-            <table>
+    <div id='head'>
+        <h2>Welcome {{current_user}},
+            {%if current_user.username == 'louis'%} You are the Super Admin
+            {%else%}
+            you're a/an {{group}}
+            {%endif%}
+        </h2>
+        <li class="addgoal"><a href="{% url 'add goal' %}"> Visit here to add Goals </a></li><br>
+        {% if current_user.is_authenticated %}
+        <a class="logt" href="{% url 'logout' %}">logout</a>
+        {%endif%}
+    </div>
+
+    <div>
+        <table>
+            <thead class="head">
                 <tr>
                     <th>User</th>
                     <th>Weekly Goals</th>
@@ -76,31 +95,51 @@
                     <th>Verify Goals</th>
                     <th>Done Goals</th>
                 </tr>
-                {% for user in users %}
+            </thead>
+            <tbody>
+                {%for user in users%}
                 <tr>
-                    <td>{{user}}</td>
-                    <td>{% for goal in weekly_goals%}
-                        {%if goal.user.username == user.username%}
-                        {{goal}}
+                    <td>
+                        {{user}}<br><br><br>
+                    </td>
+                    <td>
+                        {%for week in weekly%}
+                        {% if user == week.user%}
+                        {{week.goal_name}}<br>
+                        <a href="{% url 'move goal' week.goal_id %}">{{week.goal_id}} </a><br><br>
                         {%endif%}
                         {%endfor%}
                     </td>
-                    <td>{% for goal in daily_goals%}
-                        {%if goal.user.username == user.username%}
-                        {{goal}}
+                    <td>
+                        {%for day in daily%}
+                        {% if user == day.user%}
+                        {{day.goal_name}} <br>
+                        <a href="{% url 'move goal' day.goal_id %}">{{day.goal_id}} </a><br><br>
+                        {%endif%}
+                        {%endfor%}
+                    </td>
+                    <td>
+                        {%for ver in verify%}
+                        {% if user == ver.user%}
+                        {{ver.goal_name}} <br>
+                        <a href="{% url 'move goal' ver.goal_id %}">{{ver.goal_id}} </a> <br> <br>
+                        {%endif%}
+                        {%endfor%}
+                    </td>
+                    <td>
+                        {%for don in done%}
+                        {% if user == don.user%}
+                        {{don.goal_name}} <br>
+                        <a href="{% url 'move goal' don.goal_id %}">{{don.goal_id}} </a><br><br>
                         {%endif%}
                         {%endfor%}
                     </td>
 
-                    {% endfor %}
                 </tr>
-
-            </table>
-        </div>
-
-        <p class="btn-down"> <a href={% url 'olaniyiolabode99scrumy:add' %}>ADD A GOAL</a></p>
+                {%endfor%}
+            </tbody>
+        </table>
     </div>
-
 </body>
 
 </html>

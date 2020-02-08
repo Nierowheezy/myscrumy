@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create Account</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        .container {
+            width: 960px;
+            height: auto;
+            margin: 50px auto;
+            text-align: center;
+            background-color: rgb(143, 169, 231);
+            border-radius: 20px;
+            padding: 120px;
+
+        }
+
+        body {
+            background-color: rgb(146, 166, 211);
+        }
+
+        div {
+            width: 50%;
+            height: 50%;
+            border: 1px solid rgb(174, 194, 240);
+            padding: 100px;
+            margin: 40px auto;
+            font-size: 30px;
+        }
+
+        input[type=submit] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #827ffe;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input {
+            padding: 5px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        ul,
+        li {
+            list-style-type: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <section>
+            <form action=" " method="POST">
+                {% csrf_token %}
+                <h3 class="sign">Sign Up</h3 class=sign>
+                {{ form.as_p }}
+
+                <span><input class="two" type="submit" name="submit" value="Register User">
+                    <p>Already have an account? Log in <a href="{% url 'login' %}">here</a></p>
+                </span>
+
+            </form>
+        </section>
+
+    </div>
+    <script>
+        passw = document.getElementById("id_password");
+        passw.type = "password";
+    </script>
+</body>
+
+</html>

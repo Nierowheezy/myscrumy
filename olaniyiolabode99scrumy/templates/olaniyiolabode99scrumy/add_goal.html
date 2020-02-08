@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up Page</title>
+    <title>Add New Goal</title>
     <style>
         * {
             margin: 0;
@@ -15,27 +15,19 @@
         }
 
         .container {
-            width: 960px;
+            width: 1080px;
             height: 500px;
             margin: 50px auto;
             text-align: center;
-            background-color: rgb(143, 169, 231);
-            border-radius: 20px;
-            padding: 120px;
-
+            background-color: rgb(174, 194, 240);
         }
 
         body {
             background-color: rgb(146, 166, 211);
         }
 
-        div {
-            width: 50%;
-            height: 50%;
-            border: 1px solid rgb(174, 194, 240);
-            padding: 100px;
-            margin: 40px auto;
-            font-size: 30px;
+        form {
+            padding-top: 2rem;
         }
 
         input[type=submit] {
@@ -43,13 +35,14 @@
             border: none;
             border-radius: 5px;
             background-color: #827ffe;
+            margin: 10px;
+            width: 80px;
             color: #fff;
             cursor: pointer;
         }
 
         input {
-            padding: 5px;
-            margin-bottom: 10px;
+            padding: 10px;
             border-radius: 5px;
         }
     </style>
@@ -57,23 +50,25 @@
 
 <body>
     <div class="container">
-        <section>
-            <h2>Create your account</h2>
-            <form method="POST">
+        <h2>Add a New Goal</h2>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tages %} class="{{message.tags}}" {%endif%}>{{message}} <a href="{% url 'home' %}">Go
+                    Home</a>
+            </li>
+            {%endfor%}
+        </ul>
+        {%endif%}
+        <div>
+            <form action="" method="POST">
                 {% csrf_token %}
-                <br>
-                {{form}}
-
-                <input type="submit">
+                {{ goal_form.as_p }}
+                <input class="one" type="submit" name="submit" value="Add Goal">
             </form>
-        </section>
+        </div>
     </div>
 
-
-    <script>
-        passw = document.getElementById("id_password");
-        passw.type = "password";
-    </script>
 </body>
 
 </html>

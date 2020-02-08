@@ -25,13 +25,14 @@ SECRET_KEY = 'ra%g0uw*etntp3-bv8n19x2xi*n7=k((61-u+m&##syh)tc9=*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['18.191.238.236', '127.0.0.1']
+ALLOWED_HOSTS = ['18.191.238.236', '127.0.0.1', 'localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'olaniyiolabode99scrumy',
+    'websocket',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

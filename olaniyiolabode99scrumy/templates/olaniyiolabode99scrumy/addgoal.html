@@ -1,63 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add Goal Page</title>
+    <title>Add New Goal</title>
+    <style>
+        body {
+            color: gainsboro;
+            background-color: rgb(236, 235, 235);
+        }
+        h2{
+            color: brown;
+            font-family: sans-serif;
+        }
+        div{
+            width: 30%;
+            height: 300px;
+            border: 3px solid;
+            background-color:cadetblue ;
+            padding: 60px;
+            margin: 40px auto;
+            font-size: large;
+        }
+        .one{
+            background-color: brown;
+            color: aliceblue;
+            width: 120px;
+            height: 50px;
+            margin-left: 10%;
+            /* margin-top: 20px; */
+            border-radius: 5px;
+            border: none;
+            font-size: large;
+        }
+        input{
+            width:80%; 
+            height:30px;
+        }
+        select{
+            width:80%; 
+            height:30px;
+        }
+        .messages{
+            color: brown;
+        }
+    </style>
 </head>
-
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: sans-serif;
-    }
-
-    .container {
-        width: 1080px;
-        height: 500px;
-        margin: 50px auto;
-        text-align: center;
-        background-color: rgb(174, 194, 240);
-    }
-
-    body {
-        background-color: rgb(146, 166, 211);
-    }
-
-    form {
-        padding-top: 2rem;
-    }
-
-    input[type=submit] {
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        background-color: #827ffe;
-        margin: 10px;
-        width: 80px;
-        color: #fff;
-        cursor: pointer;
-    }
-
-    input {
-        padding: 10px;
-        border-radius: 5px;
-    }
-</style>
-
 <body>
-
-</body>
-<div class="container">
-    <form method='POST'>
+    <h2>Add a New Goal</h2>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tages %} class="{{message.tags}}" {%endif%}>{{message}}  <a href="{% url 'home' %}">Go Home</a></li>
+            {%endfor%}
+        </ul>
+        {%endif%}
+    <div>
+    <form action="" method="POST">
         {% csrf_token %}
-        {{create_goal}}
-        <input type="submit">
-    </form>
-</div>
-
+        {{ goal_form.as_p }}
+        <input class="one" type="submit" name="submit" value="Add Goal">
+    </form>   
+    </div>
+ 
+</body>
 </html>
