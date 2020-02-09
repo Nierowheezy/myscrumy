@@ -18,22 +18,24 @@ def _parse_body(body):
 @csrf_exempt
 def connect(request):
     body = _parse_body(request.body)
+    print(body)
     connection_id = body['connectionId']
-    Connection.objects.create(connection_id=connection_id)
-    response = {
-        "statusCode": 200,
-        "body": "Connect succesfully"
-    }
+    print(connection_id)
+    id = Connection.objects.create(connection_id=connection_id)
+    id.save()
     # return response
-    return JsonResponse('connect successfully', status=200, safe=False)
+    return JsonResponse({"message": "connected successfully"}, status=200, safe=False)
 
 
 @csrf_exempt
 def disconnect(request):
     body = _parse_body(request.body)
+    print(body)
     connection_id = body['connectionId']
-    Connection.objects.get(connection_id=connection_id).delete()
-    return JsonResponse('disconnect successfully', status=200, safe=False)
+    prunt(connection_id)
+    id = Connection.objects.get(connection_id=connection_id).delete()
+    id.delete()
+    return JsonResponse({"message": 'disconnected successfully'}, status=200, safe=False)
 
 
 def _send_to_connection(connection_id, data):
@@ -48,12 +50,8 @@ def _send_to_connection(connection_id, data):
 @csrf_exempt
 def send_message(request):
     body = _parse_body(request.body)
-    chat = ChatMessage()
-    chat.username = body['username']
-    chat.message = body['message']
-    chat.timestamp = body['timestamp']
-    chat.save()
-    connections = CreateConnection.objects.all()
+    print(body)
+    connections = Connection.objects.all()
     data = {'messages': [body]}
     for connection in connections:
         _send_to_connection(connection.connection_id, data)
