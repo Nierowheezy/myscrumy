@@ -80,6 +80,7 @@ def get_recent_messages(request):
                 'username': message.username,
                 'message': message.message,
                 'timestamp': message.timestamp
+            }
         )
    data = {'messages': messages}
    _send_to_connection(connection_id, data)
