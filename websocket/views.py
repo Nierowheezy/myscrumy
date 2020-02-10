@@ -51,18 +51,12 @@ def _send_to_connection(connection_id, data):
 def send_message(request):
     body = _parse_body(request.body)
     print(body)
-    instance = ChatMessage()
-    print(body['body']['message'])
-    instance.message = body['body']['message']
-    instance.username = body['body']['username']
-    instance.timestamp = body['body']['timestamp']
-    instance.save()
+
     connections = Connection.objects.all()
-    data = {"messages": [body]}
-    print("{} - {}".format(connections, data))
+    data = {'messages': [body]}
     for connection in connections:
         _send_to_connection(connection.connection_id, data)
-    return JsonResponse({'message': 'successfully send'}, status=200)
+    return JsonResponse({"message": "successfully sent"}, status=200)
 
 
 @csrf_exempt
