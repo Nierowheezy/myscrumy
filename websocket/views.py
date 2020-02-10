@@ -41,22 +41,39 @@ def _send_to_connection(connection_id, data):
     return gatewayapi.post_to_connection(ConnectionId=connection_id, Data=json.dumps(data).encode('utf-8'))
 
 
+# @csrf_exempt
+# def send_message(request):
+#     body = _parse_body(request.body)
+#     client = Connection.objects.get(connection_id=body['connectionId'])
+#     ChatMessage.objects.create(
+#         username=body['username'],
+#         message=body['message'],
+#         timestamp=body['timestamp'],
+#         client=client
+#     )
+#     connections = [_.connection_id for _ in Connection.objects.all()]
+#     data = {'messages': [body]}
+#     for connection in connections:
+#         _send_to_connection(connection, data)
+
+#     return JsonResponse({"message": "successfully sent"}, status=200)
+
 @csrf_exempt
 def send_message(request):
     body = _parse_body(request.body)
-    client = Connection.objects.get(connection_id=body['connectionId'])
-    ChatMessage.objects.create(
-        username=body['username'],
-        message=body['message'],
-        timestamp=body['timestamp'],
-        client=client
-    )
-    connections = [_.connection_id for _ in Connection.objects.all()]
-    data = {'messages': [body]}
+    print(body)
+    instance = ChatMessage()
+    print(body['body']['message'])
+    instance.message = body['body']['message']
+    instance.username = body['body']['username']
+    instance.timestamp = body['body']['timestamp']
+    instance.save()
+    connections = Connection.objects.all()
+    data = {"messages": [body]}
+    print("{} - {}".format(connections, data))
     for connection in connections:
-        _send_to_connection(connection, data)
-
-    return JsonResponse({"message": "successfully sent"}, status=200)
+        _send_to_connection(connection.connection_id, data)
+    return JsonResponse({'message': 'successfully send'}, status=200)
 
 
 @csrf_exempt
