@@ -79,7 +79,7 @@ def send_message(request):
 @csrf_exempt
 def get_recent_messages(request):
     body = _parse_body(request.body)
-    connections = ChatMessage.objects.all()
+    connection_id = body['connectionId']
     messages = []
     for message in ChatMessage.objects.all():
         messages.append(
