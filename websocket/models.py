@@ -7,7 +7,6 @@ class Connection(models.Model):
     connection_id = models.CharField(max_length=255)
 
 
-
 class ChatMessage(models.Model):
     username = models.CharField(max_length=50)
     content = models.CharField(max_length=400)
