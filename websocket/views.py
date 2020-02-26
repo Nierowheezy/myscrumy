@@ -52,7 +52,7 @@ def send_message(request):
         username=body['body']["username"], content=body['body']["content"], timestamp=body['body']["timestamp"])
     connections = [i.connection_id for i in Connection.objects.all()]
     body = {'username': chat_message.username,
-            'content': chat_message.message, 'timestamp': chat_message.timestamp}
+            'content': chat_message.content, 'timestamp': chat_message.timestamp}
     data = {'messages': [body]}
     for connection in connections:
         _send_to_connection(connection, data)
@@ -67,10 +67,10 @@ def get_recent_messages(request):
         connection_id=connectionId).connection_id
     messages = list(reversed(ChatMessage.objects.all()))
     if len(messages) > 5:
-        data = {'messages': [{'username': chat_message.username, 'content': chat_message.message,
+        data = {'messages': [{'username': chat_message.username, 'content': chat_message.content,
                               'timestamp': chat_message.timestamp} for chat_message in messages[:5]]}
     else:
-        data = {'messages': [{'username': chat_message.username, 'content': chat_message.message,
+        data = {'messages': [{'username': chat_message.username, 'content': chat_message.content,
                               'timestamp': chat_message.timestamp} for chat_message in messages]}
     _send_to_connection(connection_id, data)
     return JsonResponse('successfully sent', status=200, safe=False)
